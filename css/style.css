@@ -31,13 +31,13 @@ body{
 }
 
 .spinner-jumper-container .spinner-section .rotator {
-  border-top-color: #8571ea;
-  border-right-color: #8571ea;
+  border-top-color: #d5ff00;
+  border-right-color: #d5ff00;
 }
 
 .spinner-jumper-container .spinner-section .rotator {
-  border-top-color: #8571ea;
-  border-right-color: #8571ea;
+  border-top-color: #d5ff00;
+  border-right-color: #d5ff00;
 }
 
 .space30 { height:30px; }
@@ -324,7 +324,7 @@ header .menu span:nth-child(2){
 
 header .menu:hover > span{
   width: 100%;
-  background: #8571ea;
+  background: #d5ff00;
 }
 
 .page-view {
@@ -400,7 +400,7 @@ header .menu:hover > span{
 
 .page-view .project .text .title{
   color: #fff;
-  font-size: 100px;
+  font-size: 85px;
   margin: 0;
   font-weight: 700;
   letter-spacing: -3px;
@@ -411,7 +411,7 @@ header .menu:hover > span{
   color: #fff;
   font-size: 13px;
   font-weight: 600;
-  background: #8571ea;
+  background: #d5ff00;
   padding: 4px 8px;
   border-radius: 3px;
 }
@@ -455,7 +455,7 @@ header .menu:hover > span{
 
 .page-view .project .text .see-more:after{
     content: '';
-    background: #8571ea;
+    background: #d5ff00;
     width: 105%;
     left: -2px;
     bottom: 3px;
@@ -553,12 +553,12 @@ header .menu:hover > span{
 
 .slider-bottom .arrows .arrow.previous:hover{
   transform: translateX(-5px);
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 .slider-bottom .arrows .arrow.next:hover{
   transform: translateX(5px);
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 .slider-bottom .socials a{ 
@@ -573,7 +573,7 @@ header .menu:hover > span{
 }
 
 .slider-bottom .socials a:hover{
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 .right-menu{
@@ -650,7 +650,7 @@ header .menu:hover > span{
 }
 
 .page-menu ul li a:hover{
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 
@@ -676,7 +676,7 @@ header .menu:hover > span{
 }
 
 .subtext span{
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 .subtitle{
@@ -776,7 +776,7 @@ footer .copyright{
 
 
 footer .copyright span{
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 footer .social a{
@@ -795,7 +795,7 @@ footer .back-top{
 }
 
 footer .back-top:hover p, footer .back-top:hover i{
-  color: #8571ea;
+  color: #d5ff00;
   transition: all ease 0.5s;
   -webkit-transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
@@ -820,7 +820,7 @@ footer .back-top i{
 
 .social a:hover {
     display: inline-block;
-    color: #8571ea;
+    color: #d5ff00;
 }
 
 .social a:hover > i{
@@ -850,7 +850,7 @@ footer .back-top i{
 }
 
 .contact-btn:before{
-    background: #8571ea;
+    background: #d5ff00;
     content: '';
     position: absolute;
     left: 0;
@@ -860,7 +860,7 @@ footer .back-top i{
 }
 
 .contact-btn:hover{
-    color: #8571ea;
+    color: #d5ff00;
 }
 
 
@@ -1124,7 +1124,7 @@ svg #wheel {
     font-size: 45px;
     font-weight: 600;    
     line-height: 74px;  
-    color: #8571ea;
+    color: #d5ff00;
 }
 
 .next-link .next-title,
@@ -1188,7 +1188,7 @@ svg #wheel {
 }
 
 .categories ul li a:hover{
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 /*------------------------ All Projects ------------------------*/   
@@ -1210,7 +1210,7 @@ svg #wheel {
     color: #fff;
     font-size: 13px;
     font-weight: 600;
-    background: #8571ea;
+    background: #d5ff00;
     padding: 4px 8px;
     border-radius: 3px;
 }
@@ -1266,7 +1266,7 @@ svg #wheel {
 }
 
 .all-link:hover{
-  color: #8571ea;
+  color: #d5ff00;
 }
 
 /*------------------------ Mobile ------------------------*/   
