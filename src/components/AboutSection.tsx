@@ -1,7 +1,7 @@
 import { Linkedin, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const AboutSection = () => {
+const AboutSection = () =>  {
   return (
     <section id="about" className="bg-gray-50 py-20">
       <div className="container section-padding">
