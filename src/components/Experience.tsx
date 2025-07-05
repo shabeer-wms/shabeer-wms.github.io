@@ -118,55 +118,60 @@ const Experience: React.FC = () => {
   ];
 
   return (
-    <section id="experience" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+    <section id="experience" className="py-16 lg:py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-950">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 lg:mb-20">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-6">
+            <Briefcase className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Professional Experience
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             My journey through various roles, building expertise in Flutter development, IoT, and technical leadership
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Timeline */}
           <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-purple-600"></div>
+            {/* Timeline Line - Hidden on mobile, visible on desktop */}
+            <div className="hidden lg:block absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-purple-500 to-blue-600 opacity-80"></div>
 
             {experiences.map((experience, index) => (
-              <div key={index} className="relative mb-12 last:mb-0">
-                {/* Timeline Dot */}
-                <div className="absolute left-6 w-4 h-4 bg-blue-600 rounded-full border-4 border-white dark:border-gray-900 shadow-lg"></div>
+              <div key={index} className="relative mb-8 lg:mb-12 last:mb-0">
+                {/* Timeline Dot - Hidden on mobile, visible on desktop */}
+                <div className="hidden lg:block absolute left-6 w-4 h-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full border-4 border-white dark:border-gray-900 shadow-lg z-10"></div>
 
                 {/* Content */}
-                <div className="ml-20">
-                  <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="lg:ml-20">
+                  <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-700 group">
                     {/* Header */}
                     <div className="mb-6">
-                      <div className="flex items-start justify-between flex-wrap gap-4 mb-4">
-                        <div>
-                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
+                        <div className="flex-1">
+                          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                             {experience.title}
                           </h3>
-                          <div className="flex items-center text-blue-600 dark:text-blue-400 font-semibold mb-2">
-                            <Building size={18} className="mr-2" />
-                            {experience.company}
+                          <div className="flex items-center text-blue-600 dark:text-blue-400 font-semibold mb-3">
+                            <Building size={18} className="mr-2 flex-shrink-0" />
+                            <span className="text-base sm:text-lg">{experience.company}</span>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-                            <Calendar size={16} className="mr-2" />
-                            {experience.period}
-                          </div>
-                          <div className="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-                            <MapPin size={16} className="mr-2" />
-                            {experience.location}
-                          </div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {experience.duration}
+                        <div className="lg:text-right lg:flex-shrink-0">
+                          <div className="flex flex-col sm:flex-row lg:flex-col gap-2 sm:gap-4 lg:gap-2">
+                            <div className="flex items-center text-gray-600 dark:text-gray-300">
+                              <Calendar size={16} className="mr-2 flex-shrink-0" />
+                              <span className="text-sm font-medium">{experience.period}</span>
+                            </div>
+                            <div className="flex items-center text-gray-600 dark:text-gray-300">
+                              <MapPin size={16} className="mr-2 flex-shrink-0" />
+                              <span className="text-sm">{experience.location}</span>
+                            </div>
+                            <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full">
+                              {experience.duration}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -176,8 +181,8 @@ const Experience: React.FC = () => {
                     <div className="mb-6">
                       <ul className="space-y-3">
                         {experience.description.map((item, itemIndex) => (
-                          <li key={itemIndex} className="flex items-start text-gray-600 dark:text-gray-300">
-                            <span className="w-2 h-2 bg-blue-600 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                          <li key={itemIndex} className="flex items-start text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed">
+                            <span className="w-2 h-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mr-3 mt-2 flex-shrink-0"></span>
                             {item}
                           </li>
                         ))}
@@ -186,14 +191,15 @@ const Experience: React.FC = () => {
 
                     {/* Technologies */}
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                        <span className="w-1 h-4 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full mr-2"></span>
                         Key Skills & Technologies:
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {experience.technologies.map((tech, techIndex) => (
                           <span
                             key={techIndex}
-                            className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full"
+                            className="px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-medium rounded-full border border-blue-200 dark:border-blue-700 hover:shadow-md transition-all duration-200"
                           >
                             {tech}
                           </span>
@@ -208,53 +214,86 @@ const Experience: React.FC = () => {
         </div>
 
         {/* Education Section */}
-        <div className="mt-20">
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
-            Education
-          </h3>
+        <div className="mt-16 lg:mt-24">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mb-6">
+              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              Education
+            </h3>
+            <div className="w-16 h-1 bg-gradient-to-r from-purple-600 to-blue-600 mx-auto"></div>
+          </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Bachelor of Science - Computer Science
-              </h4>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold mb-2">
-                College of Applied Sciences, IHRD, Vazhakkad
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                August 2023 - March 2026
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+          <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+            <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700 group">
+              <div className="mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
+                  Bachelor of Science - Computer Science
+                </h4>
+                <p className="text-purple-600 dark:text-purple-400 font-semibold mb-2 text-sm sm:text-base">
+                  College of Applied Sciences, IHRD, Vazhakkad
+                </p>
+                <div className="flex items-center text-gray-500 dark:text-gray-400 mb-4 text-sm">
+                  <Calendar size={14} className="mr-2" />
+                  August 2023 - March 2026
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                 Currently pursuing degree with focus on software development and computer science fundamentals.
               </p>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Higher Secondary - Computer Science
-              </h4>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold mb-2">
-                VHSS
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                June 2021 - June 2023
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+            <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700 group">
+              <div className="mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                  Higher Secondary - Computer Science
+                </h4>
+                <p className="text-blue-600 dark:text-blue-400 font-semibold mb-2 text-sm sm:text-base">
+                  VHSS
+                </p>
+                <div className="flex items-center text-gray-500 dark:text-gray-400 mb-4 text-sm">
+                  <Calendar size={14} className="mr-2" />
+                  June 2021 - June 2023
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                 Specialized in computer science with strong foundation in programming and technology.
               </p>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                High School Diploma - Computational Science
-              </h4>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold mb-2">
-                AKMHSS
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                June 2015 - July 2021
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
+            <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700 group">
+              <div className="mb-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900 dark:to-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                  </svg>
+                </div>
+                <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                  High School Diploma - Computational Science
+                </h4>
+                <p className="text-green-600 dark:text-green-400 font-semibold mb-2 text-sm sm:text-base">
+                  AKMHSS
+                </p>
+                <div className="flex items-center text-gray-500 dark:text-gray-400 mb-4 text-sm">
+                  <Calendar size={14} className="mr-2" />
+                  June 2015 - July 2021
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                 Early exposure to computational science and technology fundamentals.
               </p>
             </div>

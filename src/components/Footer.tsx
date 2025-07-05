@@ -14,8 +14,15 @@ const Footer: React.FC = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {/* Brand & Description */}
           <div className="space-y-4">
-            <div className="text-2xl font-bold">
-              <span className="text-blue-400">M</span>uhammed <span className="text-purple-400">S</span>habeer OP
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg p-2 shadow-lg">
+                <img
+                  src="/logo/my_profile_logo.png"
+                  alt="Site Logo"
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+                <span className="font-semibold text-lg">Muhammed Shabeer OP</span>
             </div>
             <p className="text-gray-300 leading-relaxed">
               Managing Director at PRO26 | Full Stack Flutter Developer | IoT Innovator | Tech Mentor. 
@@ -116,12 +123,49 @@ const Footer: React.FC = () => {
         {/* Professional Highlights */}
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="text-center mb-6">
-            <h4 className="text-lg font-semibold text-white mb-4">Professional Highlights</h4>
-            <div className="flex flex-wrap justify-center gap-4">
-              <span className="px-4 py-2 bg-blue-600 rounded-full text-sm">Managing Director at PRO26</span>
-              <span className="px-4 py-2 bg-purple-600 rounded-full text-sm">Flutter Developer</span>
-              <span className="px-4 py-2 bg-green-600 rounded-full text-sm">IoT Innovator</span>
-              <span className="px-4 py-2 bg-orange-600 rounded-full text-sm">Tech Mentor</span>
+            <h4 className="text-xl font-bold text-white mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Professional Expertise
+            </h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              <div className="group p-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🏢</div>
+                  <h5 className="text-sm font-semibold text-white mb-1">Managing Director</h5>
+                  <p className="text-xs text-blue-100">PRO26</p>
+                </div>
+              </div>
+              
+              <div className="group p-4 bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">📱</div>
+                  <h5 className="text-sm font-semibold text-white mb-1">Flutter Developer</h5>
+                  <p className="text-xs text-purple-100">Cross-Platform Apps</p>
+                </div>
+              </div>
+              
+              <div className="group p-4 bg-gradient-to-r from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">🔧</div>
+                  <h5 className="text-sm font-semibold text-white mb-1">IoT Innovator</h5>
+                  <p className="text-xs text-green-100">Smart Solutions</p>
+                </div>
+              </div>
+              
+              <div className="group p-4 bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">👨‍🏫</div>
+                  <h5 className="text-sm font-semibold text-white mb-1">Tech Mentor</h5>
+                  <p className="text-xs text-orange-100">Knowledge Sharing</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Additional Skills */}
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">PCB Design</span>
+              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">Hardware Integration</span>
+              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">Full Stack Development</span>
+              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">Team Leadership</span>
             </div>
           </div>
         </div>
