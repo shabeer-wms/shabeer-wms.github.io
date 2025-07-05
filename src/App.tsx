@@ -36,6 +36,8 @@ function App() {
     <ThemeProvider>
       <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
         <Header />
+        {/* Mobile header spacer */}
+        <div className="md:hidden h-20"></div>
         <main>
           <Hero />
           <About />
