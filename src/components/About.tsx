@@ -163,6 +163,7 @@ const About: React.FC = () => {
                     <span className="text-gray-700 dark:text-gray-300 font-medium">{item}</span>
                   </div>
                 ))}
+                
               </div>
             </div>
 
@@ -211,6 +212,7 @@ const About: React.FC = () => {
           {/* Enhanced Highlights Grid */}
           <div className={`transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              
               {highlights.map((highlight, index) => (
                 <div
                   key={index}
