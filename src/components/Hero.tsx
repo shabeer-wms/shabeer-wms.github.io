@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
         <Star size={28} className="text-yellow-500" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 mt-20 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           {/* Enhanced Content */}
           <div className="w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-1">

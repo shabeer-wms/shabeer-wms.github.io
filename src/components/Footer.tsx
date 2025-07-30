@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Github, Linkedin, Mail, ArrowUp, Phone, MessageCircle } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowUp, Phone, MessageCircle } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -120,62 +120,10 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Professional Highlights */}
-        <div className="border-t border-gray-800 mt-8 pt-8">
-          <div className="text-center mb-6">
-            <h4 className="text-xl font-bold text-white mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Professional Expertise
-            </h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              <div className="group p-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                <div className="text-center">
-                  <div className="text-2xl mb-2">🏢</div>
-                  <h5 className="text-sm font-semibold text-white mb-1">Managing Director</h5>
-                  <p className="text-xs text-blue-100">PRO26</p>
-                </div>
-              </div>
-              
-              <div className="group p-4 bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                <div className="text-center">
-                  <div className="text-2xl mb-2">📱</div>
-                  <h5 className="text-sm font-semibold text-white mb-1">Flutter Developer</h5>
-                  <p className="text-xs text-purple-100">Cross-Platform Apps</p>
-                </div>
-              </div>
-              
-              <div className="group p-4 bg-gradient-to-r from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                <div className="text-center">
-                  <div className="text-2xl mb-2">🔧</div>
-                  <h5 className="text-sm font-semibold text-white mb-1">IoT Innovator</h5>
-                  <p className="text-xs text-green-100">Smart Solutions</p>
-                </div>
-              </div>
-              
-              <div className="group p-4 bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                <div className="text-center">
-                  <div className="text-2xl mb-2">👨‍🏫</div>
-                  <h5 className="text-sm font-semibold text-white mb-1">Tech Mentor</h5>
-                  <p className="text-xs text-orange-100">Knowledge Sharing</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Additional Skills */}
-            <div className="mt-6 flex flex-wrap justify-center gap-2">
-              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">PCB Design</span>
-              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">Hardware Integration</span>
-              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">Full Stack Development</span>
-              <span className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-xs text-gray-300 hover:bg-gray-700 transition-colors duration-200">Team Leadership</span>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2 text-gray-300 mb-4 md:mb-0">
-            <span>Made with</span>
-            <Heart size={16} className="text-red-500" />
-            <span>by Muhammed Shabeer OP</span>
+            <span>- Muhammed Shabeer OP</span>
           </div>
           
           <div className="text-gray-300 text-center md:text-right">
