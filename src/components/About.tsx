@@ -180,7 +180,7 @@ const About: React.FC = () => {
                   {
                     degree: "Bachelor of Science - Computer Science",
                     institution: "College of Applied Sciences, IHRD, Vazhakkad",
-                    period: "2023-2026",
+                    period: "2023-Till Date",
                     status: "Current"
                   },
                   {
