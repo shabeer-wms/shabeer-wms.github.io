@@ -1,202 +1,352 @@
-import React from 'react';
-import { Download, Github, Linkedin, Phone, Mail, Star, Code, Cpu } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { Github, Linkedin, Mail, Phone, ArrowDown, Smartphone, Cpu, Code2, Globe, Wifi, Layers } from 'lucide-react';
 
+// Animated counting number
+const AnimatedCounter = ({ target, duration = 1.5 }: { target: number; duration?: number }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
 
-const Hero: React.FC = () => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        const startTime = performance.now();
+        const animate = (now: number) => {
+          const elapsed = (now - startTime) / (duration * 1000);
+          const progress = Math.min(elapsed, 1);
+          // Ease out expo
+          const eased = 1 - Math.pow(2, -10 * progress);
+          setCount(Math.round(eased * target));
+          if (progress < 1) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+      }
+    }, { threshold: 0.5 });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target, duration]);
 
+  return <div ref={ref}>{count}</div>;
+};
+
+// Floating tech icon card that moves with mouse parallax
+const FloatingIcon = ({
+  icon,
+  label,
+  x,
+  y,
+  depth,
+  color,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  x: string;
+  y: string;
+  depth: number;
+  color: string;
+}) => {
+  return (
+    <motion.div
+      className="absolute hidden lg:flex items-center gap-2 px-3 py-2 rounded-full border border-[var(--border-color)] bg-[var(--bg-card)]/80 backdrop-blur-sm select-none pointer-events-none"
+      style={{ left: x, top: y }}
+      animate={{
+        y: [0, -depth * 8, 0],
+        x: [0, depth * 4, 0],
+        rotate: [0, depth * 2, 0],
+      }}
+      transition={{ duration: 3 + depth, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      <span style={{ color }}>{icon}</span>
+      <span className="text-xs font-bold" style={{ color }}>{label}</span>
+    </motion.div>
+  );
+};
+
+const Hero = () => {
   const scrollToAbout = () => {
-    const aboutSection = document.querySelector('#about');
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Mouse-tracking parallax for the headline area
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+  const rotateX = useTransform(smoothY, [-300, 300], [5, -5]);
+  const rotateY = useTransform(smoothX, [-500, 500], [-5, 5]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left - rect.width / 2);
+    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  };
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  const floatingIcons = [
+    { icon: <Smartphone size={16} />, label: 'Flutter', x: '8%', y: '22%', depth: 1.2, color: 'var(--accent-blue)' },
+    { icon: <Cpu size={16} />, label: 'IoT', x: '80%', y: '18%', depth: 0.8, color: 'var(--accent-green)' },
+    { icon: <Code2 size={16} />, label: 'Dart', x: '6%', y: '65%', depth: 1.5, color: 'var(--accent-yellow)' },
+    { icon: <Globe size={16} />, label: 'React', x: '82%', y: '60%', depth: 1.0, color: 'var(--accent-pink)' },
+    { icon: <Wifi size={16} />, label: 'MQTT', x: '15%', y: '42%', depth: 0.6, color: 'var(--accent-green)' },
+    { icon: <Layers size={16} />, label: 'PCB', x: '72%', y: '38%', depth: 1.3, color: 'var(--accent-yellow)' },
+  ];
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 pb-16 md:pt-0">
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900"></div>
+    <section
+      id="home"
+      aria-label="Introduction"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Animated background gradient orbs */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.05, 0.09, 0.05] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, var(--accent-pink), transparent 70%)', filter: 'blur(60px)' }}
+      />
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.04, 0.08, 0.04] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, var(--accent-blue), transparent 70%)', filter: 'blur(60px)' }}
+      />
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], opacity: [0.03, 0.07, 0.03] }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, var(--accent-yellow), transparent 70%)', filter: 'blur(80px)' }}
+      />
 
-      {/* Animated Background Blobs - Responsive */}
-      <div className="absolute top-10 md:top-20 left-5 md:left-10 w-48 h-48 md:w-72 md:h-72 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-30 animate-blob"></div>
-      <div className="absolute top-20 md:top-40 right-5 md:right-10 w-48 h-48 md:w-72 md:h-72 bg-purple-200 dark:bg-purple-800 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-8 left-10 md:left-20 w-48 h-48 md:w-72 md:h-72 bg-pink-200 dark:bg-pink-800 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+      {/* Grid overlay */}
+      <div className="absolute inset-0 grid-bg pointer-events-none opacity-40" />
 
-      {/* Floating Tech Icons - Hidden on mobile */}
-      <div className="hidden md:block absolute top-32 left-1/4 opacity-20 dark:opacity-10 animate-pulse">
-        <Code size={40} className="text-blue-500" />
-      </div>
-      <div className="hidden md:block absolute top-1/3 right-1/4 opacity-20 dark:opacity-10 animate-bounce" style={{ animationDelay: '1s' }}>
-        <Cpu size={32} className="text-purple-500" />
-      </div>
-      <div className="hidden md:block absolute bottom-1/3 left-1/3 opacity-20 dark:opacity-10 animate-pulse" style={{ animationDelay: '2s' }}>
-        <Star size={28} className="text-yellow-500" />
-      </div>
+      {/* Floating Tech Icons */}
+      {floatingIcons.map((fi, i) => (
+        <FloatingIcon key={i} {...fi} />
+      ))}
 
-      <div className="container mx-auto px-4 mt-20 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
-          {/* Enhanced Content */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-1">
-            <div className="mb-6 lg:mb-8">
-              {/* Greeting with animation */}
-              <div className="mb-3 lg:mb-4">
-                <span className="inline-block text-base lg:text-lg text-blue-600 dark:text-blue-400 font-medium mb-2 animate-fade-in">
-                  👋 Hello, I'm
-                </span>
-              </div>
+      {/* Main content with parallax tilt */}
+      <motion.div
+        style={{ rotateX, rotateY, perspective: 1000 }}
+        className="max-w-6xl mx-auto px-6 w-full flex flex-col items-center text-center z-10 py-16"
+      >
+        {/* Availability Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="mb-8"
+        >
+          <motion.span
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-full text-sm text-[var(--text-secondary)] cursor-default"
+            aria-label="Availability status"
+          >
+            <motion.span
+              animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              className="w-2 h-2 rounded-full bg-green-400"
+            />
+            Available for collaboration &amp; freelance
+          </motion.span>
+        </motion.div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-gray-900 dark:text-white mb-3 lg:mb-4 leading-tight tracking-tight">
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 animate-gradient-x">
-                  Muhammed Shabeer OP
-                </span>
-              </h1>
+        {/* Main Headline */}
+        {/* SEO: h1 is the person's name (primary keyword entity) */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.02] tracking-tight mb-6 text-[var(--text-primary)]"
+          itemProp="name"
+        >
+          {'Building '.split('').map((char, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.03 }}
+            >
+              {char}
+            </motion.span>
+          ))}
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.65, type: 'spring', stiffness: 200 }}
+            whileHover={{ scale: 1.05, rotate: -1 }}
+            className="inline-block rounded-full px-4 py-1 cursor-default pill-shimmer-pink"
+            style={{ color: '#1c1b21' }}
+          >
+            Innovative
+          </motion.span>
+          {' & '}
+          <br className="hidden sm:block" />
+          {'Scalable Digital '}
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.85, type: 'spring', stiffness: 200 }}
+            whileHover={{ scale: 1.05, rotate: 1 }}
+            className="inline-block rounded-full px-4 py-1 mt-2 cursor-default pill-shimmer-yellow"
+            style={{ color: '#1c1b21' }}
+          >
+            Experiences
+          </motion.span>
+        </motion.h1>
 
-
-              {/* Static Subtitle */}
-              <div className="h-12 sm:h-14 lg:h-20 mb-3 lg:mb-4">
-                <h2 className="text-lg sm:text-xl lg:text-3xl text-gray-600 dark:text-gray-300 font-light">
-                  Full Stack Flutter Developer
-                </h2>
-              </div>
-
-              <h3 className="text-base sm:text-lg lg:text-2xl text-blue-600 dark:text-blue-400 mb-4 lg:mb-6 font-medium px-2 lg:px-0">
-                Managing Director at PRO26 | IoT Innovator | Tech Mentor
-              </h3>
-
-              <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed px-2 lg:px-0">
-                Passionate about crafting exceptional digital experiences through innovative mobile apps and cutting-edge IoT solutions.
-                I bring ideas to life with Flutter's cross-platform magic and hardware expertise in PCB design.
-              </p>
-            </div>
-
-            {/* Quick Contact */}
-            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center lg:justify-start mb-6 lg:mb-8">
-              <a
-                href="tel:+916238261610"
-                className="flex items-center gap-2 text-sm lg:text-base text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 justify-center lg:justify-start"
-              >
-                <Phone size={16} className="lg:hidden" />
-                <Phone size={18} className="hidden lg:block" />
-                +91 6238261610
-              </a>
-              <a
-                href="mailto:androlite4@gmail.com"
-                className="flex items-center gap-2 text-sm lg:text-base text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 justify-center lg:justify-start"
-              >
-                <Mail size={16} className="lg:hidden" />
-                <Mail size={18} className="hidden lg:block" />
-                androlite4@gmail.com
-              </a>
-            </div>
-
-            {/* Enhanced CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center lg:justify-start mb-6 lg:mb-8 px-4 sm:px-0">
-              <a
-                href="/Profile.pdf"
-                download
-                className="group px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl text-sm lg:text-base"
-              >
-                <Download size={18} className="lg:hidden group-hover:animate-bounce" />
-                <Download size={20} className="hidden lg:block group-hover:animate-bounce" />
-                Download CV
-              </a>
-              <button
-                onClick={scrollToAbout}
-                className="px-6 lg:px-8 py-3 lg:py-4 border-2 border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded-lg font-semibold hover:bg-blue-600 hover:text-white dark:hover:bg-blue-400 dark:hover:text-gray-900 transition-all duration-300 transform hover:scale-105 text-sm lg:text-base"
-              >
-                View My Work
-              </button>
-            </div>
-
-            {/* Enhanced Social Links */}
-            <div className="flex gap-4 lg:gap-6 justify-center lg:justify-start mb-6 lg:mb-8">
-              <a
-                href="https://www.linkedin.com/in/shabeer-wms"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group p-3 lg:p-4 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                <Linkedin size={20} className="lg:hidden group-hover:animate-pulse" />
-                <Linkedin size={24} className="hidden lg:block group-hover:animate-pulse" />
-              </a>
-              <a
-                href="https://github.com/shabeer-wms"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group p-3 lg:p-4 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                <Github size={20} className="lg:hidden group-hover:animate-pulse" />
-                <Github size={24} className="hidden lg:block group-hover:animate-pulse" />
-              </a>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 lg:gap-4 max-w-sm sm:max-w-md mx-auto lg:mx-0">
-              <div className="text-center p-3 lg:p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg">
-                <div className="text-xl lg:text-2xl font-bold text-blue-600 dark:text-blue-400">5+</div>
-                <div className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">Years Experience</div>
-              </div>
-              <div className="text-center p-3 lg:p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg">
-                <div className="text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400">50+</div>
-                <div className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">Projects Done</div>
-              </div>
-              <div className="text-center p-3 lg:p-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg col-span-2 sm:col-span-1">
-                <div className="text-xl lg:text-2xl font-bold text-green-600 dark:text-green-400">1</div>
-                <div className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">Company</div>
-              </div>
-            </div>
+        {/* Sub intro with profile */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.6 }}
+          className="flex flex-col sm:flex-row items-center gap-6 mb-10 max-w-2xl"
+        >
+          <div className="flex-shrink-0" itemProp="image" itemScope itemType="https://schema.org/ImageObject">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 3 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+              className="w-20 h-20 rounded-full overflow-hidden border-2 shadow-lg"
+              style={{ borderColor: 'var(--accent-pink)', boxShadow: '0 0 20px rgba(242,164,211,0.3)' }}
+            >
+              <img
+                src="/profile.jpg"
+                alt="Muhammed Shabeer OP – Full Stack Flutter Developer and IoT Innovator from Kottakkal, Kerala"
+                className="w-full h-full object-cover"
+                width={80}
+                height={80}
+                fetchPriority="high"
+              />
+            </motion.div>
           </div>
+          <p
+            className="text-[var(--text-secondary)] text-base sm:text-lg text-left leading-relaxed"
+            itemProp="description"
+          >
+            Hello, I'm <strong className="text-[var(--text-primary)]" itemProp="name">Muhammed Shabeer OP</strong>, a{' '}
+            <span itemProp="jobTitle">Full Stack Flutter Developer</span> &amp; IoT Innovator with 5+ years of experience.
+            Managing Director at{' '}
+            <span itemProp="worksFor" itemScope itemType="https://schema.org/Organization">
+              <span itemProp="name">PRO26</span>
+            </span>,
+            passionate about crafting purposeful digital products that solve real-world problems.
+          </p>
+        </motion.div>
 
-          {/* Enhanced Profile Image */}
-          <div className="w-full lg:w-1/2 flex justify-center order-1 lg:order-2 mb-8 lg:mb-0">
-            <div className="relative">
-              {/* Glowing ring animation */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-spin opacity-75 blur-sm" style={{ animationDuration: '3s' }}></div>
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+          className="flex flex-wrap items-center justify-center gap-4 mb-12"
+        >
+          <motion.a
+            href="/profile.pdf"
+            download
+            aria-label="Download Muhammed Shabeer OP's Resume PDF"
+            whileHover={{ scale: 1.07, y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            className="pill pill-yellow flex items-center gap-2 px-6 py-3 text-sm font-bold shadow-lg"
+            style={{ boxShadow: '0 8px 24px rgba(249,211,76,0.3)' }}
+          >
+            View Resume ↗
+          </motion.a>
+          <motion.button
+            onClick={scrollToAbout}
+            aria-label="Scroll to featured projects section"
+            whileHover={{ scale: 1.07, y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            className="pill pill-dark flex items-center gap-2 px-6 py-3 text-sm font-semibold"
+            style={{ borderColor: 'var(--border-color)' }}
+          >
+            Featured Projects ↓
+          </motion.button>
+        </motion.div>
 
-              <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-2xl border-4 lg:border-8 border-white dark:border-gray-700 transform hover:scale-105 transition-all duration-500 hover:shadow-3xl">
-                <img
-                  src="/profile.jpg"
-                  alt="Muhammed Shabeer OP"
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/20 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+        {/* Social Links */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.85, duration: 0.5 }}
+          className="flex items-center gap-4 mb-16"
+        >
+          {[
+            { href: 'https://www.linkedin.com/in/shabeer-wms', icon: <Linkedin size={18} />, label: 'Connect on LinkedIn', rel: 'noopener noreferrer me' },
+            { href: 'https://github.com/shabeer-wms', icon: <Github size={18} />, label: 'View GitHub Profile', rel: 'noopener noreferrer me' },
+            { href: 'mailto:androlite4@gmail.com', icon: <Mail size={18} />, label: 'Send Email', rel: '' },
+            { href: 'tel:+916238261610', icon: <Phone size={18} />, label: 'Call Muhammed Shabeer', rel: '' },
+          ].map((link, i) => (
+            <motion.a
+              key={link.href}
+              href={link.href}
+              target={link.href.startsWith('http') ? '_blank' : undefined}
+              rel={link.rel || undefined}
+              aria-label={link.label}
+              title={link.label}
+              itemProp="sameAs"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.9 + i * 0.08, type: 'spring', stiffness: 300 }}
+              whileHover={{ scale: 1.2, y: -3, borderColor: 'var(--accent-yellow)' }}
+              whileTap={{ scale: 0.9 }}
+              className="w-10 h-10 flex items-center justify-center rounded-full border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200"
+            >
+              {link.icon}
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Stats Row with animated counters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.5 }}
+          className="grid grid-cols-3 gap-8 max-w-md w-full"
+        >
+          {[
+            { target: 5, suffix: '+', label: 'Years Experience' },
+            { target: 50, suffix: '+', label: 'Projects Done' },
+            { target: 1, suffix: '', label: 'Company Founded' },
+          ].map((stat) => (
+            <motion.div
+              key={stat.label}
+              whileHover={{ scale: 1.05 }}
+              className="text-center cursor-default"
+            >
+              <div className="text-3xl font-bold text-[var(--text-primary)] flex justify-center">
+                <AnimatedCounter target={stat.target} />
+                <span>{stat.suffix}</span>
               </div>
+              <div className="text-xs text-[var(--text-secondary)] mt-1 font-medium">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
 
-              {/* Floating Skill Badges */}
-              <div className="pointer-events-none">
-                {/* Top Right - Flutter */}
-                <div className="absolute -top-2 lg:-top-4 -right-8 lg:-right-12 px-2 lg:px-4 py-1 lg:py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full shadow-lg border border-blue-200 dark:border-gray-600 transform rotate-12 hover:rotate-0 transition-transform duration-300">
-                  <span className="text-xs lg:text-sm font-semibold text-blue-600 dark:text-blue-400">Flutter</span>
-                </div>
-
-                {/* Top Left - IoT */}
-                <div className="absolute -top-4 lg:-top-8 -left-4 lg:-left-8 px-2 lg:px-3 py-1 lg:py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full shadow-lg border border-purple-200 dark:border-gray-600 transform -rotate-12 hover:rotate-0 transition-transform duration-300">
-                  <span className="text-xs lg:text-sm font-semibold text-purple-600 dark:text-purple-400">IoT</span>
-                </div>
-
-                {/* Bottom Left - PCB */}
-                <div className="absolute -bottom-3 lg:-bottom-6 -left-6 lg:-left-10 px-2 lg:px-3 py-1 lg:py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full shadow-lg border border-green-200 dark:border-gray-600 transform rotate-6 hover:rotate-0 transition-transform duration-300">
-                  <span className="text-xs lg:text-sm font-semibold text-green-600 dark:text-green-400">PCB</span>
-                </div>
-
-                {/* Bottom Right - Mobile */}
-                <div className="absolute -bottom-2 lg:-bottom-4 -right-10 lg:-right-16 px-2 lg:px-4 py-1 lg:py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full shadow-lg border border-orange-200 dark:border-gray-600 transform -rotate-6 hover:rotate-0 transition-transform duration-300">
-                  <span className="text-xs lg:text-sm font-semibold text-orange-600 dark:text-orange-400">Mobile Apps</span>
-                </div>
-
-                {/* Subtle Tech Icons - Hidden on mobile */}
-                <div className="hidden lg:block absolute top-8 right-8 w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center opacity-60 animate-pulse">
-                  <Code size={14} className="text-blue-600 dark:text-blue-400" />
-                </div>
-
-                <div className="hidden lg:block absolute bottom-12 left-6 w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center opacity-60 animate-pulse" style={{ animationDelay: '1s' }}>
-                  <Cpu size={14} className="text-purple-600 dark:text-purple-400" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* Scroll indicator */}
+        <motion.button
+          onClick={scrollToAbout}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          whileHover={{ scale: 1.1 }}
+          className="mt-16 flex flex-col items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors group"
+        >
+          <span className="text-xs font-semibold tracking-widest uppercase">Scroll Down</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.4 }}
+          >
+            <ArrowDown size={18} />
+          </motion.div>
+        </motion.button>
+      </motion.div>
     </section>
   );
 };

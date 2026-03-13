@@ -1,0 +1,17 @@
+# Muhammed Shabeer OP – Portfolio
+# https://shabeer-wms.github.io/
+
+User-agent: *
+Allow: /
+
+# Disallow any build artifacts or config files
+Disallow: /src/
+Disallow: /*.json$
+Disallow: /*.ts$
+Disallow: /*.tsx$
+
+# Sitemap location
+Sitemap: https://shabeer-wms.github.io/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1

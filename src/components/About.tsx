@@ -1,247 +1,273 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Smartphone, Cpu, Palette, Users, Award, Lightbulb, Code, Zap, Target, Heart } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { Smartphone, Cpu, Palette, Users, GraduationCap, Lightbulb } from 'lucide-react';
 
-const About: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+// 3D tilt card on mouse hover
+const TiltCard = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothX = useSpring(mouseX, { stiffness: 200, damping: 20 });
+  const smoothY = useSpring(mouseY, { stiffness: 200, damping: 20 });
+  const rotX = useTransform(smoothY, [-60, 60], [6, -6]);
+  const rotY = useTransform(smoothX, [-80, 80], [-6, 6]);
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const highlights = [
-    {
-      icon: <Smartphone className="w-8 h-8" />,
-      title: "Flutter Expert",
-      description: "Building smooth cross-platform mobile apps that work like a charm",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: <Cpu className="w-8 h-8" />,
-      title: "IoT Innovation",
-      description: "Creating smart solutions with IoT and PCB design expertise",
-      color: "from-green-500 to-teal-500"
-    },
-    {
-      icon: <Palette className="w-8 h-8" />,
-      title: "Creative Design",
-      description: "Adobe Creative Suite, Final Cut Pro X, and Blender for stunning visuals",
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "Leadership",
-      description: "Managing Director at PRO26, leading teams and driving innovation",
-      color: "from-orange-500 to-red-500"
-    },
-    {
-      icon: <Award className="w-8 h-8" />,
-      title: "Tech Mentor",
-      description: "Teaching and guiding the next generation of developers",
-      color: "from-yellow-500 to-orange-500"
-    },
-    {
-      icon: <Lightbulb className="w-8 h-8" />,
-      title: "Problem Solver",
-      description: "Solving tricky problems with smart, practical fixes",
-      color: "from-indigo-500 to-purple-500"
-    }
-  ];
-
-  const stats = [
-    { number: "5+", label: "Years Experience", icon: <Target className="w-6 h-6" /> },
-    { number: "50+", label: "Projects Completed", icon: <Code className="w-6 h-6" /> },
-    { number: "100%", label: "Client Satisfaction", icon: <Heart className="w-6 h-6" /> },
-    { number: "24/7", label: "Innovation Drive", icon: <Zap className="w-6 h-6" /> }
-  ];
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mouseX.set(e.clientX - rect.left - rect.width / 2);
+    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  };
+  const onLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+    setIsHovered(false);
+  };
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
-      </div>
+    <motion.div
+      ref={cardRef}
+      style={{ rotateX: rotX, rotateY: rotY, transformPerspective: 600 }}
+      onMouseMove={onMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={onLeave}
+      className={className}
+      animate={{ scale: isHovered ? 1.02 : 1 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-6">
-              About Me
-            </h2>
-            <div className="w-32 h-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mx-auto mb-8 rounded-full"></div>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Passionate Full Stack Developer & Innovation Leader, crafting digital experiences that matter
-            </p>
-          </div>
-        </div>
+const highlights = [
+  {
+    Icon: Smartphone,
+    label: 'Flutter Expert',
+    desc: 'Cross-platform mobile apps that feel native on every device.',
+    pill: 'pill-blue' as const,
+    glowColor: 'rgba(185,228,255,0.15)',
+  },
+  {
+    Icon: Cpu,
+    label: 'IoT Innovation',
+    desc: 'Smart systems with IoT & PCB design expertise.',
+    pill: 'pill-green' as const,
+    glowColor: 'rgba(130,255,31,0.15)',
+  },
+  {
+    Icon: Palette,
+    label: 'Creative Vision',
+    desc: 'Adobe Creative Suite, Blender & Final Cut Pro for stunning visuals.',
+    pill: 'pill-pink' as const,
+    glowColor: 'rgba(242,164,211,0.15)',
+  },
+  {
+    Icon: Users,
+    label: 'Leadership',
+    desc: 'Managing Director at PRO26, driving innovation & team growth.',
+    pill: 'pill-yellow' as const,
+    glowColor: 'rgba(249,211,76,0.15)',
+  },
+  {
+    Icon: GraduationCap,
+    label: 'Tech Mentor',
+    desc: 'Teaching the next generation of developers at Skilshore.',
+    pill: 'pill-blue' as const,
+    glowColor: 'rgba(185,228,255,0.15)',
+  },
+  {
+    Icon: Lightbulb,
+    label: 'Problem Solver',
+    desc: 'Turning complex challenges into elegant, efficient solutions.',
+    pill: 'pill-pink' as const,
+    glowColor: 'rgba(242,164,211,0.15)',
+  },
+];
 
-        {/* Stats Section */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center p-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-              style={{ animationDelay: `${index * 150}ms` }}
+const About = () => {
+  return (
+    <section id="about" className="py-24 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+
+        {/* Section Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
+          <motion.span
+            whileHover={{ scale: 1.05 }}
+            className="pill pill-dark mb-6 inline-block cursor-default"
+          >
+            ABOUT ME
+          </motion.span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-[var(--text-primary)] leading-tight">
+            Design Shaped by{' '}
+            <motion.span
+              initial={{ opacity: 0, scale: 0.85 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+              whileHover={{ scale: 1.04 }}
+              className="inline-block rounded-full px-4 pill-shimmer-pink cursor-default"
+              style={{ color: '#1c1b21' }}
             >
-              <div className="text-blue-600 dark:text-blue-400 mb-3 flex justify-center">
-                {stat.icon}
-              </div>
-              <div className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                {stat.number}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
+              Experience
+            </motion.span>
+          </h2>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Enhanced Content */}
-          <div className={`space-y-8 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-            <div className="relative">
-              <h3 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-                Full Stack Flutter Developer & 
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> IoT Innovator</span>
-              </h3>
-              
-              <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                <p className="relative pl-6">
-                  <span className="absolute left-0 top-2 w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></span>
-                  I'm a passionate Full Stack Flutter Developer who transforms ideas into elegant, user-friendly mobile applications. 
-                  As the Managing Director at <span className="font-semibold text-blue-600 dark:text-blue-400">PRO26</span>, I lead innovative projects that bridge cutting-edge technology with real-world solutions.
-                </p>
-                
-                <p className="relative pl-6">
-                  <span className="absolute left-0 top-2 w-2 h-2 bg-gradient-to-r from-green-500 to-teal-500 rounded-full"></span>
-                  My expertise spans Flutter development, IoT systems, and PCB design — I thrive on solving complex technical challenges with creative, efficient solutions. 
-                  My creative toolkit includes Adobe Creative Suite, Final Cut Pro X, and Blender, ensuring every project delivers both functionality and aesthetic excellence.
-                </p>
-                
-                <p className="relative pl-6">
-                  <span className="absolute left-0 top-2 w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></span>
-                  From video editing at Wisdom Media School to technical innovation at Peace Radio, I bring a unique blend of technical mastery and creative vision. 
-                  I'm constantly learning, evolving, and pushing boundaries — let's collaborate on something extraordinary!
-                </p>
+
+          {/* Left: Profile image + Bio */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="space-y-8"
+          >
+            <div className="relative overflow-hidden rounded-3xl aspect-[4/3] bg-[var(--bg-card)] border border-[var(--border-color)] group">
+              <img
+                src="/profile.jpg"
+                alt="Muhammed Shabeer OP"
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+              />
+              {/* Overlay badges */}
+              <div className="absolute bottom-4 left-4 flex gap-2 flex-wrap">
+                <motion.span whileHover={{ scale: 1.1, y: -2 }} className="pill pill-yellow text-xs cursor-default">Flutter Dev</motion.span>
+                <motion.span whileHover={{ scale: 1.1, y: -2 }} className="pill pill-pink text-xs cursor-default">IoT Expert</motion.span>
               </div>
+              {/* Scan line effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--accent-blue)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             </div>
 
-            {/* Enhanced Key Points */}
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-xl">
-              <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-                <span className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
-                  <Target className="w-5 h-5 text-white" />
-                </span>
-                Core Strengths
-              </h4>
-              <div className="grid md:grid-cols-2 gap-4">
-                {[
-                  "5+ years in development & technical leadership",
-                  "Managing Director with proven team leadership",
-                  "Flutter, IoT & PCB design expertise",
-                  "Creative mastery in video editing & design",
-                  "Current CS student with academic foundation"
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-white/60 dark:bg-gray-600/30 rounded-xl">
-                    <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-gray-700 dark:text-gray-300 font-medium">{item}</span>
-                  </div>
-                ))}
-                
+            {/* Education */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="card-dark p-6 space-y-4"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <motion.span whileHover={{ scale: 1.05 }} className="pill pill-blue text-xs cursor-default">EDUCATION</motion.span>
               </div>
-            </div>
-
-            {/* Enhanced Education */}
-            <div className="space-y-4">
-              <h4 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                <span className="w-8 h-8 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg flex items-center justify-center mr-3">
-                  <Award className="w-5 h-5 text-white" />
-                </span>
-                Education Journey
-              </h4>
-              <div className="space-y-4">
-                {[
-                  {
-                    degree: "Bachelor of Science - Computer Science",
-                    institution: "College of Applied Sciences, IHRD, Vazhakkad",
-                    period: "2023-Till Date",
-                    status: "Current"
-                  },
-                  {
-                    degree: "Higher Secondary - Computer Science",
-                    institution: "VHSS",
-                    period: "2021-2023",
-                    status: "Completed"
-                  }
-                ].map((edu, index) => (
-                  <div key={index} className="relative p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-gradient-to-b from-blue-500 to-purple-500">
-                    <div className="flex justify-between items-start mb-2">
-                      <h5 className="font-bold text-gray-900 dark:text-white text-lg">{edu.degree}</h5>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        edu.status === 'Current' 
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                          : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      }`}>
-                        {edu.status}
-                      </span>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-300 font-medium">{edu.institution}</p>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{edu.period}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Enhanced Highlights Grid */}
-          <div className={`transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              
-              {highlights.map((highlight, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-500 overflow-hidden"
-                  style={{ animationDelay: `${index * 100}ms` }}
+              {[
+                { deg: 'BSc Computer Science', inst: 'CAS IHRD Vazhakkad', period: '2023–2026', status: 'Current' },
+                { deg: 'Higher Secondary – CS', inst: 'VHSS', period: '2021–2023', status: 'Completed' },
+                { deg: 'High School – Comp. Science', inst: 'AKMHSS', period: '2015–2021', status: 'Completed' },
+              ].map((edu, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ x: 4 }}
+                  className="flex items-start justify-between gap-4 py-3 border-t border-[var(--border-color)] first:border-t-0 first:pt-0"
                 >
-                  {/* Background Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${highlight.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-                  
-                  {/* Icon with Gradient Background */}
-                  <div className={`relative w-16 h-16 bg-gradient-to-br ${highlight.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <div className="text-white">
-                      {highlight.icon}
-                    </div>
+                  <div>
+                    <div className="font-semibold text-[var(--text-primary)] text-sm">{edu.deg}</div>
+                    <div className="text-[var(--text-secondary)] text-xs mt-1">{edu.inst} · {edu.period}</div>
                   </div>
-                  
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                    {highlight.title}
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
-                    {highlight.description}
-                  </p>
-                  
-                  {/* Hover Effect Border */}
-                  <div className="absolute inset-0 border-2 border-transparent group-hover:border-gray-200 dark:group-hover:border-gray-600 rounded-2xl transition-colors duration-300"></div>
-                </div>
+                  <motion.span
+                    whileHover={{ scale: 1.08 }}
+                    className={`pill text-xs flex-shrink-0 cursor-default ${edu.status === 'Current' ? 'pill-green' : 'pill-dark'}`}
+                  >
+                    {edu.status}
+                  </motion.span>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Bio text + highlight cards */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="space-y-8"
+          >
+            <div className="space-y-5 text-[var(--text-secondary)] text-base leading-relaxed">
+              <p>
+                My work is shaped by the many projects I've built, the teams I've led, and the problems I've solved.
+                Curiosity, precision, and adaptability are the core of how I develop and innovate.
+              </p>
+              <p>
+                As{' '}
+                <strong className="text-[var(--text-primary)]">Managing Director at PRO26</strong>, I lead technology
+                initiatives that bridge Flutter development, IoT hardware, and creative design. I thrive at the intersection
+                of software and hardware — from writing clean Dart code to designing PCB schematics.
+              </p>
+              <p>
+                Beyond development, I bring a creative edge through Adobe's full creative suite, video editing with Final Cut Pro X,
+                and 3D work in Blender.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { n: '5+', l: 'Years' },
+                { n: '50+', l: 'Projects' },
+                { n: '8+', l: 'Roles' },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.n}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, type: 'spring', stiffness: 200 }}
+                  whileHover={{ scale: 1.06, y: -2 }}
+                  className="card-dark p-4 text-center cursor-default"
+                >
+                  <div className="text-2xl font-bold text-[var(--text-primary)]">{s.n}</div>
+                  <div className="text-xs text-[var(--text-secondary)] mt-1">{s.l}</div>
+                </motion.div>
               ))}
             </div>
-          </div>
+
+            {/* 3D Tilt highlight cards with lucide icons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {highlights.map((h, i) => (
+                <TiltCard
+                  key={i}
+                  className="card-dark p-5 cursor-default relative overflow-hidden"
+                >
+                  {/* Glow on hover */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[20px]"
+                    style={{ background: `radial-gradient(circle at 50% 50%, ${h.glowColor}, transparent 70%)` }}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08 }}
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <motion.div
+                        whileHover={{ rotate: 15, scale: 1.2 }}
+                        transition={{ type: 'spring', stiffness: 400 }}
+                        className="w-8 h-8 rounded-lg flex items-center justify-center"
+                        style={{ background: h.glowColor }}
+                      >
+                        <h.Icon size={16} className="text-[var(--text-primary)]" />
+                      </motion.div>
+                      <span className={`pill text-xs ${h.pill}`}>{h.label}</span>
+                    </div>
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed">{h.desc}</p>
+                  </motion.div>
+                </TiltCard>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
