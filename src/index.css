@@ -169,12 +169,34 @@ p { line-height: 1.65; }
 
 /* ─── Reduce Animations on Mobile ───────────────────── */
 @media (max-width: 767px) {
-  /* Stop heavy glow and shimmer animations */
-  .pill-pink, .pill-yellow, .pill-blue, .pill-green,
-  .pill-shimmer, .pill-shimmer-pink, .pill-shimmer-yellow, .pill-shimmer-blue, .pill-shimmer-green {
-    animation: none !important;
-    background-image: none !important;
+  /* Stop heavy glow and shimmer animations but keep solid background for readability */
+  .pill-pink, .pill-shimmer-pink { 
+    animation: none !important; 
+    background-image: none !important; 
     box-shadow: none !important;
+    background-color: var(--accent-pink) !important;
+    color: #1c1b21 !important;
+  }
+  .pill-yellow, .pill-shimmer-yellow { 
+    animation: none !important; 
+    background-image: none !important; 
+    box-shadow: none !important;
+    background-color: var(--accent-yellow) !important;
+    color: #1c1b21 !important;
+  }
+  .pill-blue, .pill-shimmer-blue { 
+    animation: none !important; 
+    background-image: none !important; 
+    box-shadow: none !important;
+    background-color: var(--accent-blue) !important;
+    color: #1c1b21 !important;
+  }
+  .pill-green, .pill-shimmer-green { 
+    animation: none !important; 
+    background-image: none !important; 
+    box-shadow: none !important;
+    background-color: var(--accent-green) !important;
+    color: #1c1b21 !important;
   }
   
   /* Simplify marquee to static or significantly slower */
