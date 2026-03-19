@@ -64,10 +64,10 @@ p { line-height: 1.65; }
 }
 
 /* Base colors */
-.pill-pink   { background: var(--accent-pink);   color: #1c1b21; }
-.pill-yellow { background: var(--accent-yellow); color: #1c1b21; }
-.pill-blue   { background: var(--accent-blue);   color: #1c1b21; }
-.pill-green  { background: var(--accent-green);  color: #1c1b21; }
+.pill-pink, .pill-shimmer-pink { background: var(--accent-pink); color: #1c1b21; }
+.pill-yellow, .pill-shimmer-yellow { background: var(--accent-yellow); color: #1c1b21; }
+.pill-blue, .pill-shimmer-blue { background: var(--accent-blue); color: #1c1b21; }
+.pill-green, .pill-shimmer-green { background: var(--accent-green); color: #1c1b21; }
 .pill-dark   { background: var(--bg-card);      color: var(--text-secondary); border: 1px solid var(--border-color); }
 
 /* Glow Effects using Opacity + Transform */
