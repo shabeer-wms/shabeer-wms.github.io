@@ -14,6 +14,9 @@ import ParticleBackground from './components/ParticleBackground';
 function App() {
   // Lenis smooth scroll setup
   useEffect(() => {
+    // PERFORMANCE: Use native scroll on mobile
+    if (window.innerWidth < 768) return;
+
     const lenis = new Lenis({
       duration: 1.3,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

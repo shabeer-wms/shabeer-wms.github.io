@@ -14,6 +14,9 @@ const TiltCard = ({ children, className }: { children: React.ReactNode; classNam
   const [isHovered, setIsHovered] = useState(false);
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // PERFORMANCE: Disable tilt logic on mobile / touch
+    if (window.innerWidth < 768) return;
+
     const rect = cardRef.current?.getBoundingClientRect();
     if (!rect) return;
     mouseX.set(e.clientX - rect.left - rect.width / 2);

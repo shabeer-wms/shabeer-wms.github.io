@@ -7,6 +7,13 @@ const CursorGlow = () => {
   const current = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    // Disable on small screens / mobile touch devices
+    if (window.innerWidth < 768) {
+      if (glowRef.current) glowRef.current.style.display = 'none';
+      if (innerRef.current) innerRef.current.style.display = 'none';
+      return;
+    }
+
     const onMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
     };

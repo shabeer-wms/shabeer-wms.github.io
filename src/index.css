@@ -167,6 +167,27 @@ p { line-height: 1.65; }
   100% { stroke-dashoffset: 0; }
 }
 
+/* ─── Reduce Animations on Mobile ───────────────────── */
+@media (max-width: 767px) {
+  /* Stop heavy glow and shimmer animations */
+  .pill-pink, .pill-yellow, .pill-blue, .pill-green,
+  .pill-shimmer, .pill-shimmer-pink, .pill-shimmer-yellow, .pill-shimmer-blue, .pill-shimmer-green {
+    animation: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Simplify marquee to static or significantly slower */
+  .marquee-track, .marquee-track-rev {
+    animation-duration: 60s !important; /* Slow it down a lot */
+  }
+
+  /* Disable hover transitions that cause reflows */
+  .tag-hover:hover {
+    transform: none !important;
+  }
+}
+
 /* ─── Nav glassmorphism ─────────────────────────────── */
 .nav-glass {
   background: rgba(18, 17, 20, 0.85);
