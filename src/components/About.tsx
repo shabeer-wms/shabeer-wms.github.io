@@ -65,8 +65,8 @@ const highlights = [
   },
   {
     Icon: Users,
-    label: 'Leadership',
-    desc: 'Managing Director at PRO26, driving innovation & team growth.',
+    label: 'CTO & Co-Founder',
+    desc: 'Leading technology at PRO26, bridging engineering and design.',
     pill: 'pill-yellow' as const,
     glowColor: 'rgba(249,211,76,0.15)',
   },
@@ -200,14 +200,13 @@ const About = () => {
                 Curiosity, precision, and adaptability are the core of how I develop and innovate.
               </p>
               <p>
-                As{' '}
-                <strong className="text-[var(--text-primary)]">Managing Director at PRO26</strong>, I lead technology
-                initiatives that bridge Flutter development, IoT hardware, and creative design. I thrive at the intersection
-                of software and hardware — from writing clean Dart code to designing PCB schematics.
+                As <strong className="text-[var(--text-primary)]">CTO & Co-Founder at PRO26</strong> and Technical Head at Edutalim, 
+                I bridge the gap between complex engineering and user-friendly design. My passion lies in building 
+                scalable ecosystems—whether that's a cross-platform mobile app, a complex ERP system, or an IoT automation network.
               </p>
               <p>
-                Beyond development, I bring a creative edge through Adobe's full creative suite, video editing with Final Cut Pro X,
-                and 3D work in Blender.
+                What I bring to the table is a mix of <strong className="text-[var(--text-primary)]">Full Stack Architecture</strong> 
+                (Node.js, Docker, Nginx, PostgreSQL, Flutter, React) and hardware innovation through IoT and custom PCB design.
               </p>
             </div>
 

@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 const Skills: React.FC = () => {
   // Text-only for marquee rows (fast, no external CDN)
   const row1 = [
-    'Flutter', 'React', 'Dart', 'Python', 'JavaScript', 'TypeScript',
-    'Firebase', 'MongoDB', 'Node.js', 'Figma', 'Arduino', 'Raspberry Pi',
+    'Flutter', 'React', 'Dart', 'Node.js', 'Docker', 'Nginx',
+    'PostgreSQL', 'Firebase', 'MongoDB', 'JavaScript', 'TypeScript', 'Figma',
   ];
   const row2 = [
-    'Git', 'GitHub', 'Photoshop', 'Blender', 'PostgreSQL', 'VS Code',
-    'C++', 'Kotlin', 'Unity', 'Nginx', 'Postman', 'Electron',
+    'IoT', 'PCB Design', 'Arduino', 'Raspberry Pi', 'MQTT', 'Python',
+    'Blender', 'Adobe Creative Suite', 'Final Cut Pro', 'Git', 'GitHub', 'VS Code',
   ];
 
   const categories = [
@@ -26,7 +26,7 @@ const Skills: React.FC = () => {
     {
       title: 'Backend & Cloud',
       pill: 'pill-yellow',
-      skills: ['Firebase', 'Appwrite', 'MongoDB', 'PostgreSQL', 'Nginx', 'WordPress'],
+      skills: ['Node.js', 'PostgreSQL', 'Docker', 'Nginx', 'Firebase', 'MongoDB', 'Appwrite'],
     },
     {
       title: 'IoT & Hardware',

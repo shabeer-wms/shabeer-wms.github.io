@@ -231,12 +231,8 @@ const Hero = () => {
             itemProp="description"
           >
             Hello, I'm <strong className="text-[var(--text-primary)]" itemProp="name">Muhammed Shabeer OP</strong>, a{' '}
-            <span itemProp="jobTitle">Full Stack Flutter Developer</span> &amp; IoT Innovator with 5+ years of experience.
-            Managing Director at{' '}
-            <span itemProp="worksFor" itemScope itemType="https://schema.org/Organization">
-              <span itemProp="name">PRO26</span>
-            </span>,
-            passionate about crafting purposeful digital products that solve real-world problems.
+            <span itemProp="jobTitle">CTO &amp; Co-Founder at PRO26</span> | Flutter &amp; IoT Specialist. 
+            Passionate about building <strong className="text-[var(--text-primary)]">Scalable EdTech &amp; Enterprise Solutions</strong> that bridge the gap between complex engineering and user-friendly design.
           </p>
         </motion.div>
 

@@ -150,10 +150,10 @@ const Contact: React.FC = () => {
             <h4 className="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-widest mb-5">Current Roles</h4>
             <div className="space-y-3 mb-6">
               {[
-                { role: 'Managing Director', co: 'PRO26', pill: 'pill-yellow' },
-                { role: 'Flutter Developer', co: 'VectorCrop', pill: 'pill-blue' },
-                { role: 'A/V Staff & Tech', co: 'Peace Radio', pill: 'pill-pink' },
-                { role: 'Tutor', co: 'Skilshore', pill: 'pill-green' },
+                { role: 'Chief Tech Officer', co: 'PRO26', pill: 'pill-yellow' },
+                { role: 'Head of Tech', co: 'Edutalim', pill: 'pill-blue' },
+                { role: 'Server Engineer', co: 'Peace Radio', pill: 'pill-pink' },
+                { role: 'SEO Manager', co: 'Skilshore', pill: 'pill-green' },
               ].map((r, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <span className="text-[var(--text-secondary)] text-sm">{r.role}</span>
